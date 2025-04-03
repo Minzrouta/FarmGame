@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: Interactive Tile
+  m_Name: tomato_tile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -5501630112818903837, guid: 0900367b11ef12f42a31fed93160bba2, type: 3}
-  m_DefaultGameObject: {fileID: 3429507329505225105, guid: b96e168c84f2f784ba5ca961599e2469, type: 3}
+  m_DefaultSprite: {fileID: -242148630, guid: 0900367b11ef12f42a31fed93160bba2, type: 3}
+  m_DefaultGameObject: {fileID: 3429507329505225105, guid: a04efbaa276c5354bbfd9c93d00628c6, type: 3}
   m_DefaultColliderType: 2
   m_TilingRules: []
