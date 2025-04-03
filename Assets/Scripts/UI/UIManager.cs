@@ -9,12 +9,13 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         var root = uiDocument.rootVisualElement;
-        myButton = root.Q<Button>("Shop_tomato_seed_button");
-        myButton.clicked += OnButtonClick;
+        tomatoButton = root.Q<Button>("Shop_tomato_seed_button");
+        tomatoButton.clicked += OnButtonClick;
     }
 
     void OnButtonClick()
     {
         Debug.Log("Bouton cliqué !");
+        GameManager.Instance.AddMoney(-10);
     }
 }
