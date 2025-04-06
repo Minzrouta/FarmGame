@@ -6,6 +6,8 @@ public class Seed : MonoBehaviour
     new public string name;
     public TileBase tile;
     public float growthTime;
+    public int price;
+    public int sellPrice;
 
     public Seed(string name, TileBase tile, float growthTime)
     {

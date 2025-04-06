@@ -6,15 +6,16 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public int money = 0; 
-    public int score = 0; 
 	public Dictionary<string, int> inventory = new Dictionary<string, int>();
+    public GameObject selectedSeedPrefab;
+    public Seed selectedSeed;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-			money = 50;
+            selectedSeed = selectedSeedPrefab.GetComponent<Seed>();
             DontDestroyOnLoad(gameObject); 
         }
         else
@@ -29,12 +30,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Argent : " + money);
     }
 
-    public void AddScore(int points)
-    {
-        score += points;
-        Debug.Log("Score : " + score);
-    }
-
     public void AddToInventory(string itemName, int quantity)
     {
         if (inventory.ContainsKey(itemName))
@@ -45,7 +40,6 @@ public class GameManager : MonoBehaviour
         {
             inventory[itemName] = quantity;
         }
-        Debug.Log("Inventaire : " + itemName + " x" + inventory[itemName]);
     }
 
 	public void RemoveFromInventory(string itemName, int quantity)
@@ -58,6 +52,5 @@ public class GameManager : MonoBehaviour
                 inventory.Remove(itemName);
             }
         }
-        Debug.Log("Inventaire : " + itemName + " x" + inventory[itemName]);
     }
 }

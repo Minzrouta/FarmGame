@@ -6,24 +6,20 @@ public class FieldScript : MonoBehaviour
 {
     public bool isPlanted = false;
     private bool isGrowing = false;
-    public GameObject seedPrefab; // Prefab de la graine à planter
-    private Seed selectedSeed;
     private Tilemap plantsTilemap;
     private Tilemap terrainTilemap;
     private float timer = 0f;
-    public float growTime;
     private Transform _ui;
+    
+    private Seed plantedSeed;
     
     private VisualElement progressBar;
     private VisualElement root;
 
     void Start()
     {
-        selectedSeed = seedPrefab.GetComponent<Seed>();
         plantsTilemap = GameObject.Find("Plants Tilemap").GetComponent<Tilemap>();
         terrainTilemap = GameObject.Find("Terrain Tilemap").GetComponent<Tilemap>();
-        
-        growTime = selectedSeed.growthTime;
 
         _ui = transform.Find("ui");
         var uiDoc = _ui.GetComponent<UIDocument>();
@@ -48,7 +44,7 @@ public class FieldScript : MonoBehaviour
         if (isGrowing)
         {
             timer += Time.deltaTime;
-            float progress = Mathf.Clamp01(timer / growTime);
+            float progress = Mathf.Clamp01(timer / plantedSeed.growthTime);
             progressBar.style.width = Length.Percent(progress * 100f);
 
             if (progress >= 1f)
@@ -64,7 +60,7 @@ public class FieldScript : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("Field clicked: " + this.gameObject.name);
-        if (!isPlanted && selectedSeed != null)
+        if (!isPlanted && GameManager.Instance.selectedSeed != null)
         {
             PlantSeed();
         }
@@ -76,22 +72,23 @@ public class FieldScript : MonoBehaviour
 
     private void PlantSeed()
     {
-        if (selectedSeed.tile != null && plantsTilemap != null)
+        if (GameManager.Instance.selectedSeed.tile != null && plantsTilemap != null)
         {
-            if (GameManager.Instance.inventory.ContainsKey(selectedSeed.name) &&
-                GameManager.Instance.inventory[selectedSeed.name] > 0)
+            if (GameManager.Instance.inventory.ContainsKey(GameManager.Instance.selectedSeed.name) &&
+                GameManager.Instance.inventory[GameManager.Instance.selectedSeed.name] > 0)
             {
                 Vector3 worldPosition = transform.position;
                 Vector3Int cellPosition = plantsTilemap.WorldToCell(worldPosition);
 
-                plantsTilemap.SetTile(cellPosition, selectedSeed.tile);
+                plantsTilemap.SetTile(cellPosition, GameManager.Instance.selectedSeed.tile);
                 isGrowing = true;
                 timer = 0f;
                 root.style.visibility = Visibility.Visible; // Show the UI when planting
 
+                plantedSeed = GameManager.Instance.selectedSeed; //Peut etre a changer en faisant une copie
                 isPlanted = true;
                 Debug.Log(this.gameObject.name + " was clicked and seed planted");
-                GameManager.Instance.inventory[selectedSeed.name]--;
+                GameManager.Instance.RemoveFromInventory(GameManager.Instance.selectedSeed.name, 1); // Remove one seed from inventory
             }
             else
             {
@@ -118,7 +115,7 @@ public class FieldScript : MonoBehaviour
             plantsTilemap.SetTile(cellPosition, null);
             isPlanted = false;
             Debug.Log(this.gameObject.name + " was clicked and crop harvested");
-            GameManager.Instance.AddMoney(20); 
+            GameManager.Instance.AddMoney(plantedSeed.sellPrice); 
         }
         else
         {
