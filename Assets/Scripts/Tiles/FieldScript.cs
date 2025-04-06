@@ -4,14 +4,14 @@ using UnityEngine.Tilemaps;
 public class FieldScript : MonoBehaviour
 {
     public bool isPlanted = false;
-    public GameObject seedPrefab; //change this later to the selected seed
+    public TileBase seedTile;
 
     private Tilemap plantsTilemap;
     private Tilemap terrainTilemap;
+    private PlantedSeed plantedSeed;
 
     void Start()
     {
-        // Recherche des tilemaps dans la scène
         plantsTilemap = GameObject.Find("Plants Tilemap").GetComponent<Tilemap>();
         terrainTilemap = GameObject.Find("Terrain Tilemap").GetComponent<Tilemap>();
 
@@ -21,33 +21,51 @@ public class FieldScript : MonoBehaviour
         }
     }
 
-
     private void OnMouseDown()
     {
+        Debug.Log("Field clicked: " + this.gameObject.name);
         if (!isPlanted)
         {
-            plantSeed();
+            PlantSeed();
             isPlanted = true;
             Debug.Log(this.gameObject.name + " was clicked and seed planted");
         }
         else
         {
-            //HarvestCrop();
+            HarvestCrop();
         }
     }
 
-    private void plantSeed()
+    private void PlantSeed()
     {
-        if (seedPrefab != null && plantsTilemap != null)
+        if (seedTile != null && plantsTilemap != null)
         {
             Vector3 worldPosition = transform.position;
             Vector3Int cellPosition = plantsTilemap.WorldToCell(worldPosition);
-            Vector3 cellCenterPosition = plantsTilemap.GetCellCenterWorld(cellPosition);
-            Instantiate(seedPrefab, cellCenterPosition, Quaternion.identity, plantsTilemap.transform);
+
+            plantsTilemap.SetTile(cellPosition, seedTile);
+            plantedSeed = new PlantedSeed(seedTile, this); // Store the planted seed
         }
         else
         {
-            Debug.LogError("Seed prefab or plants tilemap is not assigned.");
+            Debug.LogError("Seed tile or plants tilemap is not assigned.");
+        }
+    }
+
+    private void HarvestCrop()
+    {
+        if (plantsTilemap != null)
+        {
+            Vector3 worldPosition = transform.position;
+            Vector3Int cellPosition = plantsTilemap.WorldToCell(worldPosition);
+            plantsTilemap.SetTile(cellPosition, null); // Remove the crop
+            isPlanted = false; // Reset the planted state
+            plantedSeed = null; // Reset the planted seed
+            Debug.Log(this.gameObject.name + " was clicked and crop harvested");
+        }
+        else
+        {
+            Debug.LogError("Plants tilemap is not assigned.");
         }
     }
 }
