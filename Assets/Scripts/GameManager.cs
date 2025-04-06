@@ -4,20 +4,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public int money = 0; // Argent du joueur
-    public int score = 0; // Score du joueur
+    public int money = 0; 
+    public int score = 0; 
 
     void Awake()
     {
-        // S'assurer qu'il n'y ait qu'un seul GameManager
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Garde ce GameObject actif entre les scènes
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
-            Destroy(gameObject); // Détruit les doublons
+            Destroy(gameObject);
         }
     }
 

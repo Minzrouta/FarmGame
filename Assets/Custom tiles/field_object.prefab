@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlanted: 0
-  seedTile: {fileID: 11400000, guid: e9ce517e659a37f4699900eda143d03a, type: 2}
+  seedPrefab: {fileID: 4379435792221881239, guid: 94e0f05826cd52649b20912d5fbae25b, type: 3}
 --- !u!61 &-2558813627564665650
 BoxCollider2D:
   m_ObjectHideFlags: 0

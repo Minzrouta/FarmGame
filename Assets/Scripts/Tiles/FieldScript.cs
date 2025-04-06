@@ -4,14 +4,14 @@ using UnityEngine.Tilemaps;
 public class FieldScript : MonoBehaviour
 {
     public bool isPlanted = false;
-    public TileBase seedTile;
-
+    public GameObject seedPrefab; // Prefab de la graine à planter
+    private Seed selectedSeed;
     private Tilemap plantsTilemap;
     private Tilemap terrainTilemap;
-    private PlantedSeed plantedSeed;
 
     void Start()
     {
+        selectedSeed = seedPrefab.GetComponent<Seed>();
         plantsTilemap = GameObject.Find("Plants Tilemap").GetComponent<Tilemap>();
         terrainTilemap = GameObject.Find("Terrain Tilemap").GetComponent<Tilemap>();
 
@@ -24,7 +24,7 @@ public class FieldScript : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("Field clicked: " + this.gameObject.name);
-        if (!isPlanted)
+        if (!isPlanted && selectedSeed != null)
         {
             PlantSeed();
             isPlanted = true;
@@ -38,13 +38,12 @@ public class FieldScript : MonoBehaviour
 
     private void PlantSeed()
     {
-        if (seedTile != null && plantsTilemap != null)
+        if (selectedSeed.tile != null && plantsTilemap != null)
         {
             Vector3 worldPosition = transform.position;
             Vector3Int cellPosition = plantsTilemap.WorldToCell(worldPosition);
 
-            plantsTilemap.SetTile(cellPosition, seedTile);
-            plantedSeed = new PlantedSeed(seedTile, this); // Store the planted seed
+            plantsTilemap.SetTile(cellPosition, selectedSeed.tile);
         }
         else
         {
@@ -60,7 +59,6 @@ public class FieldScript : MonoBehaviour
             Vector3Int cellPosition = plantsTilemap.WorldToCell(worldPosition);
             plantsTilemap.SetTile(cellPosition, null); // Remove the crop
             isPlanted = false; // Reset the planted state
-            plantedSeed = null; // Reset the planted seed
             Debug.Log(this.gameObject.name + " was clicked and crop harvested");
         }
         else
