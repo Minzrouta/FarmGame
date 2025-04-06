@@ -4,18 +4,32 @@ using UnityEngine.UIElements;
 public class UIManager : MonoBehaviour
 {
     public UIDocument uiDocument; 
-    private Button tomatoButton;
+    private Button _tomatoButton;
+	private Label _moneyLabel;
 
-    void Start()
+    void Awake()
     {
         var root = uiDocument.rootVisualElement;
-        tomatoButton = root.Q<Button>("Shop_tomato_seed_button");
-        tomatoButton.clicked += OnButtonClick;
+        _tomatoButton = root.Q<Button>("Shop_tomato_seed_button");
+        _tomatoButton.clicked += OnTomatoButtonClick;
+		_moneyLabel = root.Q<Label>("Money");
     }
 
-    void OnButtonClick()
+    void Update()
     {
-        Debug.Log("Bouton cliqué !");
-        GameManager.Instance.AddMoney(-10);
+		_moneyLabel.text = "Money: " + GameManager.Instance.money;
+    }
+
+    void OnTomatoButtonClick()
+    {
+		if (GameManager.Instance.money >= 10)
+		{
+            GameManager.Instance.AddToInventory("Tomato Seed", 1);
+            GameManager.Instance.AddMoney(-10);
+        }
+        else
+        {
+            Debug.Log("Pas assez d'argent !");
+        }
     }
 }

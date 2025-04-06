@@ -57,9 +57,10 @@ public class FieldScript : MonoBehaviour
         {
             Vector3 worldPosition = transform.position;
             Vector3Int cellPosition = plantsTilemap.WorldToCell(worldPosition);
-            plantsTilemap.SetTile(cellPosition, null); // Remove the crop
-            isPlanted = false; // Reset the planted state
+            plantsTilemap.SetTile(cellPosition, null);
+            isPlanted = false; 
             Debug.Log(this.gameObject.name + " was clicked and crop harvested");
+            GameManager.Instance.AddMoney(20); 
         }
         else
         {
