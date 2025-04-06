@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement style="flex-grow: 1; background-color: rgb(154, 77, 0); right: 200px; width: 200px; height: 400px; min-width: 200px; min-height: 400px; max-height: 400px; max-width: 200px; left: auto; transform-origin: right; align-content: auto; align-self: flex-end; justify-content: flex-start; align-items: flex-start; top: 20px;">
         <ui:Label text="Money&#10;" name="Money" style="align-content: auto; align-items: auto; left: 0; top: 0;" />
-        <ui:Button text="Tomato" name="Shop_tomato_seed_button" icon-image="project://database/Assets/tilesets/free.png?fileID=-242148630&amp;guid=0900367b11ef12f42a31fed93160bba2&amp;type=3#free_106" />
+        <ui:Button text="Tomato" name="Shop_tomato_seed_button" icon-image="project://database/Assets/tilesets/free.png?fileID=-242148630&amp;guid=0900367b11ef12f42a31fed93160bba2&amp;type=3#free_106" style="width: 100px; height: 50px;" />
         <ui:Label text="Inventory&#10;" name="Inventory" style="align-content: auto; align-items: auto; left: 0; top: 0;" />
     </ui:VisualElement>
 </ui:UXML>
