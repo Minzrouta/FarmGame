@@ -27,8 +27,6 @@ public class FieldScript : MonoBehaviour
         if (!isPlanted && selectedSeed != null)
         {
             PlantSeed();
-            isPlanted = true;
-            Debug.Log(this.gameObject.name + " was clicked and seed planted");
         }
         else
         {
@@ -40,10 +38,21 @@ public class FieldScript : MonoBehaviour
     {
         if (selectedSeed.tile != null && plantsTilemap != null)
         {
-            Vector3 worldPosition = transform.position;
-            Vector3Int cellPosition = plantsTilemap.WorldToCell(worldPosition);
+            if (GameManager.Instance.inventory.ContainsKey(selectedSeed.name) &&
+                GameManager.Instance.inventory[selectedSeed.name] > 0)
+            {
+                Vector3 worldPosition = transform.position;
+                Vector3Int cellPosition = plantsTilemap.WorldToCell(worldPosition);
 
-            plantsTilemap.SetTile(cellPosition, selectedSeed.tile);
+                plantsTilemap.SetTile(cellPosition, selectedSeed.tile);
+                isPlanted = true;
+                Debug.Log(this.gameObject.name + " was clicked and seed planted");
+                GameManager.Instance.inventory[selectedSeed.name]--;
+            }
+            else
+            {
+                Debug.Log("Not enough seeds");
+            }
         }
         else
         {

@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a594d7aa64214e64cb050cff8b7221d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Tomato
+  name: Tomato Seed
   tile: {fileID: 11400000, guid: e9ce517e659a37f4699900eda143d03a, type: 2}
   growthTime: 3
